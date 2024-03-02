@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/context/theme-provider";
+import { GameProvider } from "@/context/game-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const jetBrains = JetBrains_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-br">
+      <body className={jetBrains.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+        >
+          <GameProvider>
+            {children}
+          </GameProvider>
+        </ThemeProvider>
+      </body>
     </html>
-  );
+  )
 }

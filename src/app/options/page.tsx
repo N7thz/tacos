@@ -1,20 +1,14 @@
 import { ModeToggle } from "@/components/mode-toggle"
-import { Button } from "@/components/ui/button"
-import {
-    Card, CardHeader, CardTitle, CardFooter, CardContent
-} from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { ButtonChangeBackground } from "@/components/menu-options"
-
 import { ButtonOptions } from "@/components/button-options"
+import { Background } from "@/components/background"
 
 export default function Page() {
-    
+
     return (
 
-        <div
-            className="min-h-screen flex items-center justify-center relative"
-            style={{ background: "url(https://i.pinimg.com/originals/9c/d7/e7/9cd7e7e85fb52f60428a942675174f12.jpg)" }}
-        >
+        <Background>
             <Card
                 className="min-w-[300px] flex flex-col gap-4 capitalize border-2 border-zinc-900 relative dark:border-zinc-50"
             >
@@ -35,6 +29,6 @@ export default function Page() {
                     </div>
                 </CardFooter>
             </Card>
-        </div>
+        </Background>
     )
 }

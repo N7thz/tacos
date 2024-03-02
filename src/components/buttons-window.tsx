@@ -1,9 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import {
-    CardFooter
-} from "@/components/ui/card"
+import { CardFooter } from "@/components/ui/card"
 import { useGame } from "@/context/game-provider"
 import { useRouter } from "next/navigation"
 

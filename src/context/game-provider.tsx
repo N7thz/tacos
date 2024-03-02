@@ -1,47 +1,32 @@
 "use client"
 
-import { 
-    Dispatch, ReactNode, SetStateAction, createContext, useContext, useState 
-} from "react"
-
-interface GameProps {
-
-    erros: number
-    setErros: Dispatch<SetStateAction<number>>
-    background: string
-    setBackground: Dispatch<SetStateAction<string>>
-    palavra: Palavra
-    setPalavra: Dispatch<SetStateAction<Palavra>>
-}
-
-interface Palavra {
-    id: number
-    palavra: string
-    dica: string
-}
+import { ReactNode, createContext, useContext, useState} from "react"
+import { GameProps, Palavra } from "@/@types"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const GameContext = createContext({} as GameProps)
 
 export function GameProvider({ children }: { children: ReactNode }) {
 
+    const queryClient = new QueryClient()
+
+    const backgroudStorage =
+        localStorage.getItem("background") ?? "https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif"
+
     const [erros, setErros] = useState<number>(0)
-    const [background, setBackground] = useState<string>("https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif")
-    const [palavra, setPalavra] = useState<Palavra>({
-        id: 51,
-        palavra: "iogurte",
-        dica: "comida feita a partir de leite"
-    })
+    const [background, setBackground] = useState<string>(backgroudStorage)
 
     const value: GameProps = {
         erros, setErros,
-        background, setBackground,
-        palavra, setPalavra
+        background, setBackground
     }
 
     return (
 
         <GameContext.Provider value={value}>
-            {children}
+            <QueryClientProvider  client={queryClient}>
+                {children}
+            </QueryClientProvider>
         </GameContext.Provider>
     )
 }

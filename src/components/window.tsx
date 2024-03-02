@@ -4,16 +4,11 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { useGame } from "@/context/game-provider"
 import { twMerge } from "tailwind-merge"
 import { ButtonsWindow } from "./buttons-window"
+import { WindowProps } from "@/@types"
 
-export interface WindowProps {
-    message: string
-    isLose: boolean
-    isWin: boolean
-}
-
-export const Window: FC<WindowProps> = ({ message, isLose, isWin }) => {
-
-    const { palavra: { palavra } } = useGame()
+export const Window: FC<WindowProps> = ({
+    message, isLose, isWin, palavra: { palavra }
+}) => {
 
     return (
 

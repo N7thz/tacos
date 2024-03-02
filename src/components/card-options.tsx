@@ -1,4 +1,4 @@
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react"
+import { FC, FormEvent, useState } from "react"
 import {
     Card, CardContent, CardDescription, CardHeader, CardTitle
 } from "@/components/ui/card"
@@ -6,21 +6,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Check, Lightbulb } from "lucide-react"
 import { useGame } from "@/context/game-provider"
-
-export interface CardOptionsProps {
-
-    historico: string[]
-    letras: string[]
-    setHistorico: Dispatch<SetStateAction<string[]>>
-    setIsWin: Dispatch<SetStateAction<boolean>>
-    setIsLose: Dispatch<SetStateAction<boolean>>
-}
+import { CardOptionsProps } from "@/@types"
 
 export const CardOptions: FC<CardOptionsProps> = ({
-    historico, setHistorico, letras, setIsLose, setIsWin
+    historico,
+    setHistorico,
+    letras,
+    setIsLose,
+    setIsWin,
+    palavra: { palavra, dica }
 }) => {
 
-    const { erros, setErros, palavra: { dica, palavra } } = useGame()
+    const { erros, setErros } = useGame()
 
     const [newLetra, setNewLetra] = useState<string>('')
     const [isDica, setIsDica] = useState<boolean>(false)
@@ -31,10 +28,7 @@ export const CardOptions: FC<CardOptionsProps> = ({
 
         e.preventDefault()
 
-        if (historico.includes(newLetra)) {
-
-            alert('Você ja digitou essa letra')
-        } else {
+        if (!historico.includes(newLetra)) {
 
             if (letrasUnicas.includes(newLetra)) {
 
@@ -58,7 +52,10 @@ export const CardOptions: FC<CardOptionsProps> = ({
             }
 
             setHistorico(oldValue => [...oldValue, newLetra])
+        } else {
+            alert('Você ja digitou essa letra')
         }
+
         setNewLetra('')
     }
 
@@ -69,20 +66,23 @@ export const CardOptions: FC<CardOptionsProps> = ({
         >
             {
                 erros > 4 &&
-                <Lightbulb
-                    onClick={() => setIsDica(true)}
-                    width={36}
-                    height={36}
-                    color="white"
-                    className="absolute top-2 right-2 p-1 rounded-full cursor-pointer hover:scale-110 duration-500"
-                />
+                <Button
+                    className="absolute top-2 right-2 p-1 cursor-pointer"
+                    size="icon"
+                >
+                    <Lightbulb
+                        onClick={() => setIsDica(true)}
+                        width={28}
+                        height={28}
+                    />
+                </Button>
             }
 
             <CardHeader
                 className="w-full text-left"
             >
                 <CardTitle
-                    className="text-3xl w-full text-left ml-8 text-zinc-800 mt-4"
+                    className="text-3xl w-full text-left ml-8 mt-4"
                 >
                     Erros: {erros}
                 </CardTitle>

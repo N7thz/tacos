@@ -1,28 +1,52 @@
 "use client"
 
 import { useState } from "react"
-import { useGame } from "@/context/game-provider"
 import { CardForca } from "@/components/card-forca"
 import { CardOptions } from "@/components/card-options"
 import { Window } from "@/components/window"
+import { Button } from "@/components/ui/button"
+import { Background } from "@/components/background"
+import { useQuery } from "@tanstack/react-query"
+import { Palavra } from "@/@types"
+import { useRouter } from "next/navigation"
+import { Menu } from "lucide-react"
 
 export default function Page() {
 
-    const { background, palavra: { palavra } } = useGame()
+    const { push } = useRouter()
+    const randonId = Math.round(Math.random() * (50 - 1))
+
+    const { data: palavraObject } = useQuery({
+        queryKey: ["get-only-product"],
+        queryFn: async () => {
+
+            const response = await
+                fetch(`http://localhost:3333/words?id=${randonId}`)
+
+            const data: Palavra[] = await response.json()
+
+            return data[0]
+        }
+    })
 
     const [historico, setHistorico] = useState<string[]>([])
     const [isWin, setIsWin] = useState<boolean>(false)
     const [isLose, setIsLose] = useState<boolean>(false)
-    const letras: string[] = palavra.toLowerCase().split('')
+    const letras: string[] | undefined =
+        palavraObject?.palavra.toLowerCase().split('')
 
-    console.log(background)
+    if (!palavraObject || !letras) return
 
     return (
 
-        <div
-            style={{ background: `url(${background})` }}
-            className="flex items-center justify-around min-h-screen"
-        >
+        <Background>
+
+            <Button
+                className="absolute top-8 right-8 bg-transparent hover:bg-transparent hover:scale-105 duration-200" 
+                onClick={() => push("/options")}
+            >
+                <Menu size={40} />
+            </Button>
 
             <CardForca
                 historico={historico}
@@ -35,6 +59,7 @@ export default function Page() {
                 setHistorico={setHistorico}
                 setIsLose={setIsLose}
                 setIsWin={setIsWin}
+                palavra={palavraObject}
             />
 
             {
@@ -43,8 +68,8 @@ export default function Page() {
                     message="você perdeu"
                     isLose={isLose}
                     isWin={isWin}
+                    palavra={palavraObject}
                 />
-
             }
 
             {
@@ -53,8 +78,9 @@ export default function Page() {
                     message="você venceu"
                     isLose={isLose}
                     isWin={isWin}
+                    palavra={palavraObject}
                 />
             }
-        </div>
+        </Background>
     )
 }

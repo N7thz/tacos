@@ -18,12 +18,6 @@ export function ButtonChangeBackground() {
     const getBackgrounds = backgrounds()
     const { setBackground } = useGame()
 
-    function changeBackground(background: string) {
-
-        localStorage.setItem("background", background)
-        setBackground(background)
-    }
-
     return (
 
         <Dialog>
@@ -50,7 +44,7 @@ export function ButtonChangeBackground() {
                             width={400}
                             height={400}
                             alt="imagem ilustrativa"
-                            onClick={() => changeBackground(background)}
+                            onClick={() =>  setBackground(background)}
                             className="w-full h-auto rounded-lg border border-zinc-50 cursor-pointer duration-200 hover:scale-105"
                         />
                     )}

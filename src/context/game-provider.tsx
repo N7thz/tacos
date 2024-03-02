@@ -10,9 +10,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
     const queryClient = new QueryClient()
 
-    const backgroudStorage =
-        localStorage.getItem("background") ?? "https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif"
-
+    const backgroudStorage = "https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif"
+    
     const [erros, setErros] = useState<number>(0)
     const [background, setBackground] = useState<string>(backgroudStorage)
 

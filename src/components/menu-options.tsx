@@ -11,12 +11,21 @@ import {
 } from "@/components/ui/dialog"
 import { useGame } from "@/context/game-provider"
 import { backgrounds } from "@/lib/utils"
+import { setCookie } from "nookies"
 import Image from "next/image"
 
 export function ButtonChangeBackground() {
 
     const getBackgrounds = backgrounds()
     const { setBackground } = useGame()
+
+    function changeBackground(background: string) {
+
+        setCookie(null, "background", background, {
+            maxAge: 60 * 60 * 7
+        })
+        setBackground(background)
+    }
 
     return (
 
@@ -44,7 +53,7 @@ export function ButtonChangeBackground() {
                             width={400}
                             height={400}
                             alt="imagem ilustrativa"
-                            onClick={() =>  setBackground(background)}
+                            onClick={() => changeBackground(background)}
                             className="w-full h-auto rounded-lg border border-zinc-50 cursor-pointer duration-200 hover:scale-105"
                         />
                     )}

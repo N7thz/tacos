@@ -1,16 +1,18 @@
 "use client"
 
 import { ReactNode, createContext, useContext, useState} from "react"
-import { GameProps, Palavra } from "@/@types"
+import { GameProps } from "@/@types"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { parseCookies } from "nookies"
 
 const GameContext = createContext({} as GameProps)
 
 export function GameProvider({ children }: { children: ReactNode }) {
 
     const queryClient = new QueryClient()
+    const cookies = parseCookies().background
 
-    const backgroudStorage = "https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif"
+    const backgroudStorage = cookies ?? "https://i.pinimg.com/originals/4e/15/a9/4e15a9e296c03c97c417335a2fbe8f93.gif"
     
     const [erros, setErros] = useState<number>(0)
     const [background, setBackground] = useState<string>(backgroudStorage)

@@ -25,14 +25,14 @@ export const CardForca: FC<CardForcaProps> = ({ letras, historico }) => {
             <div
                 className=" w-full h-full justify-center text-5xl p-1 flex gap-4 flex-wrap lowercase m-2"
             >
-                {letras.map(letra => {
+                {letras.map((letra, index) => {
 
                     const isVisible = historico.includes(letra)
 
                     return (
-                        
+
                         <span
-                            key={letra}
+                            key={index}
                             className={twMerge(
                                 "border-b-4 border-primary p-1",
                                 !isVisible && "text-zinc-50 dark:text-zinc-950"
